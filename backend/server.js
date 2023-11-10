@@ -7,7 +7,7 @@ dotenv.config(); // Initialize dotenv
 const { PORT } = process.env; // environment variables
 
 const app = express();
-app.use(express.json()); // Body Parser
+// app.use(express.json()); // Body Parser
 const server = createServer(app);
 const io = new Server(server);
 
@@ -18,11 +18,17 @@ app.get('/', (req, res) => {
 });
 
 //------------------------------------------------------------------------------------
-
 io.on('connection', (socket) => {
   console.log('a user connected');
+  socket.on('chat message', (msg) => {
+    // log massage in server console
+    console.log(`message: ${msg}`);
+    //send message to client side...
+    io.emit('chat message', msg)
+  })
 });
 
 server.listen(PORT, () => {
   console.log(`Server is listening to port: ${PORT}`);
 });
+
