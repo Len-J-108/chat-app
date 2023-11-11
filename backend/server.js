@@ -3,6 +3,9 @@ import dotenv from 'dotenv';
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 
+// MongoDB Connection
+import './utils/mongodb.js';
+
 dotenv.config(); // Initialize dotenv
 const { PORT } = process.env; // environment variables
 
