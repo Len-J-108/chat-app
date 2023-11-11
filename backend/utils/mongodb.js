@@ -8,7 +8,7 @@ const {MONGO_URL, DATABASE} = process.env; // getting environment variables
 (async function() {
     try{
         const connection = await mongoose.connect(MONGO_URL, {dbName: DATABASE})
-        console.log(`Connected to MongoDB,:) db: ${DATABASE}`);
+        console.log(`Connected to Mongo-database: ${DATABASE}`);
     } catch(err) {
         console.error('Mongo Connection Error!',{err});
       }
