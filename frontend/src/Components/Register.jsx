@@ -1,135 +1,86 @@
+// React Imports
 import { useState } from 'react';
+
+// CSS Import (as module)
+import * as styles from '../Styles/Register.module.css';
+
 // MUI
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
+
 // Toastify
 import { toast } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+
+//useForm Hook
+import {useForm} from 'react-hook-form';
+
+// Yup
+import * as yup from 'yup';
+import {yupResolver} from '@hookform/resolvers/yup';
 
 
 const Register = () => {
-  const [registerData, setRegisterData] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        password: '',
+
+// Themes
+    const darkTheme = createTheme({ palette: { mode: 'dark' } });
+    const lightTheme = createTheme({ palette: { mode: 'light' } });
+
+    const regSchema = yup.object().shape({
+        userName: yup.string().min(3, 'username must be at least 3 characters long').required('A username is required'),
+        email: yup.string().email('enter valid email-address').required('An email-address is required'),
+        password: yup.string().min(8, 'password must be at least 8 characters long').required('please choose a password')
+        
     })
-  // Themes
-  const darkTheme = createTheme({ palette: { mode: 'dark' } });
-  const lightTheme = createTheme({ palette: { mode: 'light' } });
-
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-
-    const emailRgx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g; // tests for email addresses
-
-    const firstName = registerData.firstName.trim();
-    const lastName = registerData.lastName.trim();
-    const email = registerData.email.trim();
-    const password = registerData.password;
-
-    if (!firstName || !lastName || !email || !password) {
-        return toast.warning('Please fill out every required field!');
-    } 
-    if (!emailRgx.test(email)) {
-        return toast.error('Please enter a valid email')
-    }
-    if (password.length < 10 || password.length > 100) {
-        return toast.error('The password must be between 10 & 100 characters long');
-    }
-    // Past ClientSide Validation
-    const form = new FormData(); // create FormData class
-    for (let item in registerData) {
-        form.append(item, registerData[item]);
+    
+    const { register, handleSubmit, formState: { errors, isValid } } = useForm({
+        resolver: yupResolver(regSchema),
+      });
+    
+    const handleForm = (data) => {
+        // send to API
+        console.log({data})
     }
 
-    console.log({form})
-    const url = `http://localhost:4321/register`;
-    // fetch(url, {
-    //     method: 'POST',
-    //     body: form,
-    // })
-    // .then((response) => response.json())
-    // .then(data => console.log({data}))
-
-    // alert('register submitted')
-  };
-
-  return (
-    <>
+    
+    return (
+        <>
         <h3>--Register--</h3>
     <ThemeProvider theme={darkTheme}>
     <Paper elevation={8} style={{padding: 48}}>
-            <form onSubmit={submitHandler}>
-        <Grid container rowSpacing={4} columnSpacing={{xs: 1, sm: 2, md:3}}>
-            <Grid item xs={6}>
+            <form className={styles.formContainer} onSubmit={handleSubmit(handleForm)}>
                 <TextField 
+                error={errors.userName}
+                helperText={errors?.userName?.message}
                 id="outlined-basic"
-                label="First Name" 
+                label="User Name" 
                 variant="outlined" 
                 InputLabelProps={{ style: { color: 'orange' } }} 
                 inputProps={{ style: { color: "white" } }}
-                onChange={(e) => {
-                    setRegisterData({
-                        ...registerData, 
-                        firstName: e.target.value
-                    })
-                }}
+                {...register("userName")}
                 />
-            </Grid>
-            <Grid item xs={6}>
                 <TextField 
-                id="outlined-basic" 
-                label="Last Name" 
-                variant="outlined" 
-                InputLabelProps={{ style: { color: 'orange' } }} 
-                inputProps={{ style: { color: "white" } }}
-                onChange={(e) => {
-                    setRegisterData({
-                        ...registerData, 
-                        lastName: e.target.value
-                    })
-                }}
-                />
-            </Grid>
-            <Grid item xs={6}>
-                <TextField 
+                error={errors.email}
+                helperText={errors?.email?.message}
                 id="outlined-basic" 
                 label="Email" 
                 variant="outlined" 
                 InputLabelProps={{ style: { color: 'orange' } }} 
                 inputProps={{ style: { color: "white" } }} 
-                onChange={(e) => {
-                    setRegisterData({
-                        ...registerData, 
-                        email: e.target.value
-                    })
-                }}
+                {...register("email")}
                 />
-            </Grid>
-            <Grid item xs={6}>
                 <TextField 
+                error={errors.password}
+                helperText={errors?.password?.message}
                 id="outlined-basic" 
                 label="Password" 
                 variant="outlined" 
                 InputLabelProps={{ style: { color: 'orange' } }} 
                 inputProps={{ style: { color: "white" } }} 
-                onChange={(e) => {
-                    setRegisterData({
-                        ...registerData, 
-                        password: e.target.value
-                    })
-                }}
+                {...register("password")}
                 />
-            </Grid>
-            <Grid item xs={6}>
-            <Button variant="contained" type='submit' onClick={submitHandler}>Register</Button>
-            </Grid>
-    </Grid>
+            <Button   disabled={!isValid}  variant="contained" type='submit' >Register</Button>
             </form>
     </Paper>
     </ThemeProvider>

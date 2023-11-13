@@ -1,90 +1,73 @@
 import { useState } from 'react';
+
+// CSS Import (as module)
+import * as styles from '../Styles/Register.module.css';
+
 // MUI
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
+
+//useForm Hook
+import {useForm} from 'react-hook-form';
+
 // Toastify
 import { toast } from 'react-toastify';
 
 
+// Yup
+import * as yup from 'yup';
+import {yupResolver} from '@hookform/resolvers/yup';
+
 const Login = () => {
-const [loginData, setLoginData] = useState({
-    email: '',
-    password: ''
-})
+
+    const logSchema = yup.object().shape({
+        email: yup.string().email('enter valid email-address').required('An email-address is required'),
+        password: yup.string().min(8, 'password must be at least 8 characters long').required('please enter your password')
+    })
 
 // Themes
 const darkTheme = createTheme({ palette: { mode: 'dark' } });
 const lightTheme = createTheme({ palette: { mode: 'light' } });
 
-const submitHandler = (e) => {
-    e.preventDefault();
-    const emailRgx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g; // tests for email addresses
-    const email = loginData.email.trim(); // trims potential whitespaces before & after
-    if (!email && !loginData.password) {
-        return toast.warning('Please enter email & password!!');
-    }
-    if (!email) {
-        return    toast.warning('Please enter an email!!');
-    } else {
-        if (!emailRgx.test(email)) {
-           return toast.error('Please enter a valid email')
-        }
-        if (!loginData.password) {
-            return    toast.warning('Please enter a password!!');
-        }
-      }
-    if (loginData.password.length < 10 || loginData.password.length > 100) {
-        return toast.warning('The password must be between 10 & 100 characters long')
-    }
-    // Past ClientSide Validation
-    // navigate
-    return alert('inputs passed => next navigate...');
-    } 
+const {register, handleSubmit, formState: {errors, isValid}} = useForm({
+    resolver: yupResolver(logSchema),
+});
+
+const handleForm = data => {
+    // send to API
+    console.log({data})
+}
 
   return (
     <>
     <h3>--Login--</h3>
     <ThemeProvider theme={darkTheme}>
     <Paper elevation={8} style={{padding: 48}}>
-            <form onSubmit={submitHandler}>
-        <Grid container rowSpacing={4} columnSpacing={{xs: 1, sm: 2, md:3}}>
-            <Grid item xs={6}>
+            <form className={styles.formContainer} onSubmit={handleSubmit(handleForm)}>
                 <TextField 
+                error={errors.email}
+                helperText={errors?.email?.message}
                 id="outlined-basic" 
                 label="Email" 
                 variant="outlined" 
                 InputLabelProps={{ style: { color: 'orange' } }} 
                 inputProps={{ style: { color: "white" } }} 
-                onChange={(e) => {
-                    setLoginData({
-                        ...loginData,
-                        email: e.target.value
-                    })
-                }}
+                {...register("email")}
                 />
-            </Grid>
-            <Grid item xs={6}>
                 <TextField 
+                error={errors.password}
+                helperText={errors?.password?.message}
                 id="outlined-basic" 
                 label="Password" 
                 variant="outlined" 
                 InputLabelProps={{ style: { color: 'orange' } }} 
                 inputProps={{ style: { color: "white" } }} 
-                onChange={(e) => {
-                    setLoginData({
-                        ...loginData,
-                        password: e.target.value
-                    })
-                }}
+                {...register("password")}
                 />
-            </Grid>
-            <Grid item xs={6}>
-            <Button variant="contained" type='submit' onClick={submitHandler}>Enter</Button>
-            </Grid>
-    </Grid>
+            <Button disabled={!isValid} variant="contained" type='submit' >Enter</Button>
             </form>
     </Paper>
     </ThemeProvider>
