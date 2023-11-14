@@ -7,6 +7,10 @@ import { Server } from 'socket.io';
 // MongoDB Connection
 import './utils/mongodb.js';
 
+// Import routes
+import loginRouter from './Routes/loginRoute.js';
+import registerRouter from './Routes/registerRoute.js';
+
 dotenv.config(); // Initialize dotenv
 const { PORT } = process.env; // environment variables
 
@@ -15,22 +19,12 @@ app.use(express.json()); // Body Parser
 app.use(cors())
 
 const server = createServer(app);
-const io =
 
-app.get("/test", (req, res) => {
-  console.log('Inside TEST !!');
-  res.status(200).send('inside test')
-})
+// Login Route
+app.use("/login", loginRouter);
 
-app.post("/register", (req, res) => {
-  console.log('post reqiest with body: ', req.body);
-  res.status(200).end();
-})
-
-app.post("/login", (req, res) => {
-  console.log('postRequest Login with body: ', req.body);
-  res.status(200).end();
-})
+// Register Route
+app.use("/register", registerRouter)
 
 server.listen(PORT, () => {
   console.log(`Server is listening to port: ${PORT}`);

@@ -38,10 +38,22 @@ const Register = () => {
         resolver: yupResolver(regSchema),
       });
     
-    const handleForm = (data) => {
-        // send to API
-        console.log({data})
-    }
+      const handleForm = async (data) => {
+        const serverUrl = 'http://localhost:4321';
+        const route = '/register';
+    
+        // fetching
+            const response = await fetch(`${serverUrl}${route}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+            const xx = await response.json();
+            console.log(xx)
+        }
+    
 
     
     return (

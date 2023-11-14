@@ -49,16 +49,16 @@ const handleForm = async (data) => {
             },
             body: JSON.stringify(data),
         });
-
+        console.log({response})
         if (!response.ok) {
             throw new Error('Failed to log in');
         }
         console.log('Logged in successfully');
-        // toast.success('Logged in successfully');
+        toast.success('Logged in successfully');
     } catch (err) {
         // Handle any errors that occurred during the fetch
         console.error('Error:', err.message);
-        // toast.error('Failed to log in');
+        toast.error(err.message);
     }
 };
 
