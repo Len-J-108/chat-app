@@ -7,7 +7,6 @@ import * as styles from '../Styles/Register.module.css';
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
-import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 
 //useForm Hook
@@ -20,7 +19,7 @@ import { toast } from 'react-toastify';
 // Yup
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
-import server from 'json-server';
+
 
 const Login = () => {
 
