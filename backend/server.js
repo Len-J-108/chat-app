@@ -15,29 +15,20 @@ app.use(express.json()); // Body Parser
 app.use(cors())
 
 const server = createServer(app);
-const io = new Server(server);
+const io =
 
-//------------------------------------------------------------------------------------
-// test example from socketIO homepage
-// app.get('/', (req, res) => {
-//   res.sendFile(new URL('./testa/test.html', import.meta.url).pathname);
-// });
-
-//------------------------------------------------------------------------------------
-
-
-// io.on('connection', (socket) => {
-//   console.log('a user connected');
-//   socket.on('chat message', (msg) => {
-//     // log massage in server console
-//     console.log(`message: ${msg}`);
-//     //send message to client side...
-//     io.emit('chat message', msg)
-//   })
-// });
+app.get("/test", (req, res) => {
+  console.log('Inside TEST !!');
+  res.status(200).send('inside test')
+})
 
 app.post("/register", (req, res) => {
   console.log('post reqiest with body: ', req.body);
+  res.status(200).end();
+})
+
+app.post("/login", (req, res) => {
+  console.log('postRequest Login with body: ', req.body);
   res.status(200).end();
 })
 

@@ -20,6 +20,7 @@ import { toast } from 'react-toastify';
 // Yup
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
+import server from 'json-server';
 
 const Login = () => {
 
@@ -36,10 +37,31 @@ const {register, handleSubmit, formState: {errors, isValid}} = useForm({
     resolver: yupResolver(logSchema),
 });
 
-const handleForm = data => {
-    // send to API
-    console.log({data})
-}
+const handleForm = async (data) => {
+    const serverUrl = 'http://localhost:4321';
+    const route = '/login';
+
+    // fetching
+    try {
+        const response = await fetch(`${serverUrl}${route}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to log in');
+        }
+        console.log('Logged in successfully');
+        // toast.success('Logged in successfully');
+    } catch (err) {
+        // Handle any errors that occurred during the fetch
+        console.error('Error:', err.message);
+        // toast.error('Failed to log in');
+    }
+};
 
   return (
     <>
