@@ -41,7 +41,6 @@ const handleForm = async (data) => {
     const route = '/login';
 
     // fetching
-    try {
         const response = await fetch(`${serverUrl}${route}`, {
             method: 'POST',
             headers: {
@@ -49,17 +48,14 @@ const handleForm = async (data) => {
             },
             body: JSON.stringify(data),
         });
-        console.log({response})
-        if (!response.ok) {
-            throw new Error('Failed to log in');
-        }
-        console.log('Logged in successfully');
-        toast.success('Logged in successfully');
-    } catch (err) {
-        // Handle any errors that occurred during the fetch
-        console.error('Error:', err.message);
-        toast.error(err.message);
-    }
+        // if (!response.ok) {
+        //     return console.log('response not OK...');
+        // }
+        const xx = await response.json()
+        console.log(xx);
+        toast.warning(xx)
+        // console.log('Logged in successfully');
+        // toast.success('Logged in successfully');
 };
 
   return (

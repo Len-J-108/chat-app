@@ -9,7 +9,7 @@ import {validationResult} from 'express-validator';
 // check if email is valid with express validator
 
 // Email-Validation Schema
-export const emailSchema = [validator.body("email").isEmail().withMessage("invalid email - from backend").normalizeEmail()]
+export const emailSchema = [validator.body("email").isEmail().withMessage("invalid email").normalizeEmail()]
 
 // Email Validation Result
 export const validateEmail = (req, res, next) => {
@@ -48,10 +48,15 @@ export const registerUser = async (req, res) => {
         const response = await user.save();
         console.log('user saved')
         res.status(201).json('User saved...');
-        
     } catch(err) {
-        console.log('catch::', err)
-        res.status(500).json(err.message);
+        if (err.errors){
+            // console.log('here', err.errors);
+            const validationErrors = Object.values(err.errors).map((e) => e.message);
+            console.error(`Validation Errors: ${validationErrors}`);
+            res.status(400).json(validationErrors);
+        }
+        console.log('no validation errors');
+        res.end();
       }
 }
 //------------------------------------------------------------------------------------

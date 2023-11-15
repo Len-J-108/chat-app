@@ -29,7 +29,7 @@ const Register = () => {
 
     const regSchema = yup.object().shape({
         userName: yup.string().min(3, 'username must be at least 3 characters long').required('A username is required'),
-        email: yup.string()/* .email('enter valid email-address') */.required('An email-address is required'),
+        email: yup.string().email('enter valid email-address').required('An email-address is required'),
         password: yup.string().min(8, 'password must be at least 8 characters long').required('please choose a password')
         
     })
@@ -75,7 +75,7 @@ const Register = () => {
                 />
                 <TextField 
                 error={errors.email}
-                helperText={errors?.email?.message}
+                helperText={errors?.email?.message} 
                 id="outlined-basic" 
                 label="Email" 
                 variant="outlined" 
@@ -85,7 +85,7 @@ const Register = () => {
                 />
                 <TextField 
                 error={errors.password}
-                helperText={errors?.password?.message}
+                helperText={errors?.password?.message} 
                 id="outlined-basic" 
                 label="Password" 
                 variant="outlined" 
@@ -93,7 +93,7 @@ const Register = () => {
                 inputProps={{ style: { color: "white" } }} 
                 {...register("password")}
                 />
-            <Button   /* disabled={!isValid} */  variant="contained" type='submit' >Register</Button>
+            <Button disabled={!isValid}  variant="contained" type='submit' >Register</Button>
             </form>
     </Paper>
     </ThemeProvider>
