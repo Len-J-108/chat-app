@@ -29,7 +29,7 @@ const Register = () => {
 
     const regSchema = yup.object().shape({
         userName: yup.string().min(3, 'username must be at least 3 characters long').required('A username is required'),
-        email: yup.string().email('enter valid email-address').required('An email-address is required'),
+        email: yup.string()/* .email('enter valid email-address') */.required('An email-address is required'),
         password: yup.string().min(8, 'password must be at least 8 characters long').required('please choose a password')
         
     })
@@ -51,7 +51,8 @@ const Register = () => {
                 body: JSON.stringify(data),
             });
             const xx = await response.json();
-            console.log(xx)
+            console.log(xx);
+            toast.warning(xx);
         }
     
 
@@ -92,7 +93,7 @@ const Register = () => {
                 inputProps={{ style: { color: "white" } }} 
                 {...register("password")}
                 />
-            <Button   disabled={!isValid}  variant="contained" type='submit' >Register</Button>
+            <Button   /* disabled={!isValid} */  variant="contained" type='submit' >Register</Button>
             </form>
     </Paper>
     </ThemeProvider>

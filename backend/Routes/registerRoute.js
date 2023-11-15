@@ -7,7 +7,7 @@ import * as registerController from '../Controllers/registerController.js';
 const registerRouter = Router();
 
 registerRouter
-  .post("/", registerController.registerUser);
+  .post("/", registerController.emailSchema, registerController.validateEmail, registerController.checkNewEmail, registerController.registerUser);
 
 
 
