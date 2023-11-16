@@ -10,6 +10,9 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
+// Axios
+import axios from 'axios';
+
 // Toastify
 import { toast } from 'react-toastify';
 
@@ -43,17 +46,17 @@ const Register = () => {
         const route = '/register';
     
         // fetching
-            const response = await fetch(`${serverUrl}${route}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            });
-            const xx = await response.json();
+        try{
+            const response = await axios.post(`${serverUrl}${route}`, data, {
+                headers: {"Content-Type": "application/json"}
+            })
+            const xx = await response.data;
             console.log(xx);
-            toast.warning(xx);
+            toast.warning(xx)
+        } catch(err) {
+            console.error(err);
         }
+    }
     
 
     

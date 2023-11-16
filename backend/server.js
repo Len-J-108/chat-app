@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import { createServer } from 'node:http';
 import { Server } from 'socket.io';
+import cookieParser from 'cookie-parser';
 
 import { User } from './Models/userModel.js';
 
@@ -12,7 +13,6 @@ import './utils/mongodb.js';
 // Import routes
 import loginRouter from './Routes/loginRoute.js';
 import registerRouter from './Routes/registerRoute.js';
-import cookieParser from 'cookie-parser';
 
 
 
@@ -46,6 +46,14 @@ app.delete("/delete-all", async (req, res) => {
   res.end();
   // res.status(200).send('deleted every entry');
 })
+
+app.post("/cookieTest", (req, res) => {
+  res
+    .cookie("TEST", "JOJOJO", {maxAge: 24 * 60 * 60 * 1000, httpOnly:true});
+    res.status(200).send('cookie created');
+});
+
+
 //------------------------------------------------------------------------------------
 // Server listen
 server.listen(PORT, () => {

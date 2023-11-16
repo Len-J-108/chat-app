@@ -12,6 +12,9 @@ import Button from '@mui/material/Button';
 //useForm Hook
 import {useForm} from 'react-hook-form';
 
+// Axios
+import axios from 'axios';
+
 // Toastify
 import { toast } from 'react-toastify';
 
@@ -41,21 +44,21 @@ const handleForm = async (data) => {
     const route = '/login';
 
     // fetching
-        const response = await fetch(`${serverUrl}${route}`, {
-            method: 'POST',
+    try{
+        const response = await axios.post(`${serverUrl}${route}`, data, {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(data),
         });
         // if (!response.ok) {
-        //     return console.log('response not OK...');
-        // }
-        const xx = await response.json()
-        console.log(xx);
-        toast.warning(xx)
-        // console.log('Logged in successfully');
-        // toast.success('Logged in successfully');
+            //     return console.log('response not OK...');
+            // }
+            const xx = await response.data;
+            console.log(xx);
+            toast.warning(xx)
+        } catch(err) {
+            console.error(err);
+          }
 };
 
   return (

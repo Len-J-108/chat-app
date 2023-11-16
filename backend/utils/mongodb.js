@@ -3,7 +3,6 @@ import dotenv from 'dotenv';
 dotenv.config(); // initializing dotenv package
 
 const {MONGO_URL, DATABASE} = process.env; // getting environment variables
-
 //IIFE to connect to MongoDB
 (async function() {
     try{

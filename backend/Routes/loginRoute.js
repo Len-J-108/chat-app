@@ -8,7 +8,7 @@ import { emailSchema, validateEmail } from '../Controllers/registerController.js
 const loginRouter = Router();
 
 loginRouter
-  .post("/", emailSchema, validateEmail, loginController.userLookup);
+  .post("/", emailSchema, validateEmail, loginController.userLogin);
 
 export default loginRouter;
 
