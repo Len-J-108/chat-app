@@ -12,13 +12,17 @@ import './utils/mongodb.js';
 // Import routes
 import loginRouter from './Routes/loginRoute.js';
 import registerRouter from './Routes/registerRoute.js';
+import cookieParser from 'cookie-parser';
+
+
 
 dotenv.config(); // Initialize dotenv
 const { PORT } = process.env; // environment variables
 
 const app = express();
 app.use(express.json()); // Body Parser
-app.use(cors())
+app.use(cors());
+app.use(cookieParser());
 
 const server = createServer(app);
 
@@ -26,8 +30,7 @@ const server = createServer(app);
 app.use("/login", loginRouter);
 
 // Register Route
-app.use("/register", registerRouter)
-
+app.use("/register", registerRouter);
 
 //------------------------------------------------------------------------------------
 // TESTING TESTING TESTING

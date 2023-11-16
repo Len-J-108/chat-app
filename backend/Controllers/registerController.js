@@ -5,6 +5,9 @@ import { User } from "../Models/userModel.js";
 import validator from 'express-validator';
 import {validationResult} from 'express-validator';
 
+// import token functions
+import { createJWT } from "../utils/token.js";
+
 //------------------------------------------------------------------------------------
 // check if email is valid with express validator
 
@@ -26,8 +29,8 @@ export const validateEmail = (req, res, next) => {
 export const checkNewEmail = async (req, res, next) => {
     try{
         const {email} = req.body;
-        const find = await User.find({email: email});
-        if (!find.length) {
+        const user = await User.findOne({email: email});
+        if (!user) {
             console.log(`User: ${email} is new`);
             console.log('next');
             return next();
@@ -47,7 +50,14 @@ export const registerUser = async (req, res) => {
         const user = new User(req.body);
         const response = await user.save();
         console.log('user saved')
-        res.status(201).json('User saved...');
+        if (user) {
+            res.status(201).json({
+                _id: user.id,
+                userName: user.userName,
+                password: user.password,
+                token: createJWT({token: user._id}) 
+            });
+        }
     } catch(err) {
         if (err.errors){
             // console.log('here', err.errors);
