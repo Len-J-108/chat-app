@@ -23,6 +23,8 @@ import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 
+// Axio speciale
+import API from '../api.js';
 
 const Login = () => {
 
@@ -45,11 +47,8 @@ const handleForm = async (data) => {
 
     // fetching
     try{
-        const response = await axios.post(`${serverUrl}${route}`, data, {
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
+        // const response = await axios.post(`${serverUrl}${route}`, data);
+        const response = await API.post(`${serverUrl}${route}`, data);
         // if (!response.ok) {
             //     return console.log('response not OK...');
             // }

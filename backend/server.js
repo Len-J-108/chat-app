@@ -21,7 +21,17 @@ const { PORT } = process.env; // environment variables
 
 const app = express();
 app.use(express.json()); // Body Parser
-app.use(cors());
+// app.use(cors());
+
+
+app.use(
+  cors({
+      origin: 'http://localhost:5173', // 5173 is where we have set our frontend to run
+      credentials: true,
+  })
+);
+
+
 app.use(cookieParser());
 
 const server = createServer(app);
