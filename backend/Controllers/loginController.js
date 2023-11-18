@@ -45,7 +45,8 @@ export const userAuthentication = async (req, res) => {
         const {username, email, accessToken} = req.cookies;
         const user = await User.findOne({email: email})
         if (!user) {
-            return res.status(404).json('Authentication Denied');
+            console.log('here')
+            return res.status(204).json('Authentication Denied');
         }
         const isUserAccessGranted = verifyJWT(accessToken);
         res.status(200).json('Authentication Success');
