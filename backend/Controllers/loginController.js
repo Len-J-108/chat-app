@@ -47,7 +47,7 @@ export const userAuthentication = async (req, res) => {
             return res.status(404).json('Authentication Denied');
         }
         const isUserAccessGranted = verifyJWT(accessToken);
-        res.status(201).json('Authentication Success');
+        res.status(200).json('Authentication Success');
     } catch(err) {
         console.error(err);
         req.status(500).json(err.message);

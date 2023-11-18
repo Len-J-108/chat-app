@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import {useNavigate} from 'react-router-dom';
 
 // CSS Import (as module)
 import * as styles from '../Styles/Register.module.css';
@@ -19,7 +20,7 @@ import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import {yupResolver} from '@hookform/resolvers/yup';
 
-// Axio speciale
+// Axios speciale
 import API from '../api.js';
 
 const Login = () => {
@@ -39,6 +40,8 @@ const Login = () => {
 
   const [isAuth, setIsAuth] = useState(false);
 
+  const navigate = useNavigate();
+
 const handleForm = async (data) => {
     const serverUrl = 'http://localhost:4321';
 
@@ -52,7 +55,7 @@ const handleForm = async (data) => {
             // }
             const xx = await response.data;
             console.log(xx);
-            toast.warning(xx)
+            toast.warning(xx);
         } catch(err) {
             return console.error(err);
         }
@@ -66,6 +69,7 @@ const handleForm = async (data) => {
             if (authResponse.status == 200) {
                 //User Authenticated set isAuth to true & navigate or history to chat page...
                 // toast.success(data)
+                navigate("/chat");
             }
     } catch(err) {
         console.error(err);

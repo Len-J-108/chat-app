@@ -1,14 +1,20 @@
+import {Routes,  Route } from 'react-router-dom';
+// import { Navigate } from "react-router-dom";
+// import { useEffect } from 'react';
+// import routes from '../routes';
+
 // Import Components
-import Login from './Components/Login'
-import Register from './Components/Register';
+import Enter from './Pages/Enter';
+import Chat from './Pages/Chat';
 
 // import ToastContainer for error messages
 import { ToastContainer } from 'react-toastify';
-import "react-toastify/dist/ReactToastify.css";
+
 
 import './App.css'
 
 function App() {
+
 
   return (
     <>
@@ -23,10 +29,11 @@ function App() {
     draggable
     pauseOnHover
     theme="dark"
-    />
-      <div>Chat App</div>
-      <Login />
-      <Register />
+    /> 
+      <Routes>
+        <Route path="/" element={<Enter />} />
+        <Route path="/chat" element={<Chat />} />
+      </Routes>
     </>
   )
 }
