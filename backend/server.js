@@ -57,12 +57,10 @@ app.delete("/delete-all", async (req, res) => {
   // res.status(200).send('deleted every entry');
 })
 
-app.post("/cookieTest", (req, res) => {
-  res
-    .cookie("TEST", "JOJOJO", {maxAge: 24 * 60 * 60 * 1000, httpOnly:true});
-    res.status(200).send('cookie created');
+app.get("/cookieTest", (req, res) => {
+  console.log('COOKIES', req.cookies);
+  res.end()
 });
-
 
 //------------------------------------------------------------------------------------
 // Server listen

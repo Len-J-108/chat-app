@@ -12,12 +12,8 @@ import Button from '@mui/material/Button';
 //useForm Hook
 import {useForm} from 'react-hook-form';
 
-// Axios
-import axios from 'axios';
-
 // Toastify
 import { toast } from 'react-toastify';
-
 
 // Yup
 import * as yup from 'yup';
@@ -28,27 +24,29 @@ import API from '../api.js';
 
 const Login = () => {
 
-    const logSchema = yup.object().shape({
+  const logSchema = yup.object().shape({
         email: yup.string().email('enter valid email-address').required('An email-address is required'),
         password: yup.string().min(8, 'password must be at least 8 characters long').required('please enter your password')
     })
 
-// Themes
-const darkTheme = createTheme({ palette: { mode: 'dark' } });
-const lightTheme = createTheme({ palette: { mode: 'light' } });
+  // Themes
+  const darkTheme = createTheme({ palette: { mode: 'dark' } });
+  const lightTheme = createTheme({ palette: { mode: 'light' } });
 
-const {register, handleSubmit, formState: {errors, isValid}} = useForm({
+  const {register, handleSubmit, formState: {errors, isValid}} = useForm({
     resolver: yupResolver(logSchema),
-});
+  });
+
+  const [isAuth, setIsAuth] = useState(false);
 
 const handleForm = async (data) => {
     const serverUrl = 'http://localhost:4321';
-    const route = '/login';
 
-    // fetching
+    // Authorisation
+    // fetching Login Route
     try{
         // const response = await axios.post(`${serverUrl}${route}`, data);
-        const response = await API.post(`${serverUrl}${route}`, data);
+        const response = await API.post(`${serverUrl}/login`, data);
         // if (!response.ok) {
             //     return console.log('response not OK...');
             // }
@@ -56,8 +54,22 @@ const handleForm = async (data) => {
             console.log(xx);
             toast.warning(xx)
         } catch(err) {
-            console.error(err);
-          }
+            return console.error(err);
+        }
+    // Authentication
+    // Fetching login/private route
+        try{
+            const authResponse = await API.get(`${serverUrl}/login/private`);
+            console.log('STATUS IS: ', authResponse.status)
+            const data = await authResponse.data;
+            console.log(data);
+            if (authResponse.status == 200) {
+                //User Authenticated set isAuth to true & navigate or history to chat page...
+                // toast.success(data)
+            }
+    } catch(err) {
+        console.error(err);
+      }
 };
 
   return (
@@ -69,6 +81,7 @@ const handleForm = async (data) => {
                 <TextField 
                 error={errors.email}
                 helperText={errors?.email?.message}
+                value='one@example.com'
                 id="outlined-basic" 
                 label="Email" 
                 variant="outlined" 
@@ -79,6 +92,7 @@ const handleForm = async (data) => {
                 <TextField 
                 error={errors.password}
                 helperText={errors?.password?.message}
+                value='qweqweqweqwe'
                 id="outlined-basic" 
                 label="Password" 
                 variant="outlined" 
