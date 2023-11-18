@@ -3,6 +3,8 @@ import {useNavigate} from 'react-router-dom';
 
 // Axios speciale
 import API from '../api.js';
+import URL from '../localhost.js';
+
 
 // Toastify
 import { toast } from 'react-toastify';
@@ -14,8 +16,7 @@ const Chat = () => {
     // useEffect => check if JWT is in Cookies and verifies => setIsAuth(true)
     useEffect(() => {
       const fetchIt = async () => {
-          const serverUrl = 'http://localhost:4321';
-          const authResponse = await API.get(`${serverUrl}/login/private`);
+          const authResponse = await API.get(`${URL}/login/private`);
           if (authResponse.status == 200) {
             return;
           } else {

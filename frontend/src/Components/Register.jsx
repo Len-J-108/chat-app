@@ -5,13 +5,16 @@ import { useState } from 'react';
 import * as styles from '../Styles/Register.module.css';
 
 // MUI
-import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
 // Axios
 import axios from 'axios';
+import  API from '../api.js';
+import URL from '../localhost.js';
+
 
 // Toastify
 import { toast } from 'react-toastify';
@@ -42,13 +45,10 @@ const Register = () => {
       });
     
       const handleForm = async (data) => {
-        const serverUrl = 'http://localhost:4321';
-        const route = '/register';
     
         // fetching
         try{
-            const response = await axios.post(`${serverUrl}${route}`, data, {
-                headers: {"Content-Type": "application/json"}
+            const response = await API.post(`${URL}/register`, data, {
             })
             const xx = await response.data;
             console.log(xx);

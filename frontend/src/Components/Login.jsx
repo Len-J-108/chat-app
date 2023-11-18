@@ -22,6 +22,8 @@ import {yupResolver} from '@hookform/resolvers/yup';
 
 // Axios speciale
 import API from '../api.js';
+import URL from '../localhost.js';
+
 
 const Login = () => {
 
@@ -43,12 +45,11 @@ const Login = () => {
   const navigate = useNavigate();
 
 const handleForm = async (data) => {
-    const serverUrl = 'http://localhost:4321';
 
     // Authorisation
     // fetching Login Route
     try{
-        const response = await API.post(`${serverUrl}/login`, data);
+        const response = await API.post(`${URL}/login`, data);
         // if (!response.ok) {
             //     return console.log('response not OK...');
             // }

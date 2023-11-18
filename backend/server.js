@@ -5,14 +5,13 @@ import { createServer } from 'node:http';
 import { Server } from 'socket.io';
 import cookieParser from 'cookie-parser';
 
-import { User } from './Models/userModel.js';
+import usersRouter from './Routes/usersRoute.js';
+import userRouter from './Routes/userRoute.js';
+
 
 // MongoDB Connection
 import './utils/mongodb.js';
 
-// Import routes
-import loginRouter from './Routes/loginRoute.js';
-import registerRouter from './Routes/registerRoute.js';
 
 
 
@@ -36,18 +35,13 @@ app.use(cookieParser());
 
 const server = createServer(app);
 
-// Login Route
-app.use("/login", loginRouter);
-
-// Register Route
-app.use("/register", registerRouter);
+// Mono
+app.use("/user", userRouter)
+// Poly
+app.use("users", usersRouter)
 
 //------------------------------------------------------------------------------------
 // TESTING TESTING TESTING
-app.get("/getAll", async (req, res) => {
-  const allUsers = await User.find();
-  res.status(200).json(allUsers);
-})
 
 // delete all enstries from DB (just for testing)
 app.delete("/delete-all", async (req, res) => {
@@ -56,11 +50,6 @@ app.delete("/delete-all", async (req, res) => {
   res.end();
   // res.status(200).send('deleted every entry');
 })
-
-app.get("/cookieTest", (req, res) => {
-  console.log('COOKIES', req.cookies);
-  res.end()
-});
 
 //------------------------------------------------------------------------------------
 // Server listen
