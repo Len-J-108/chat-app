@@ -17,15 +17,14 @@ export const userLogin = async (req, res, next) => {
         // if email is NOT in db
         if (!user) {
             console.log('unknown user');
-            return res.status(404).json('unknown user');
-            //  throw new Error('unknown user');
+             res.status(209).json('unknown user');
         // if email IS in db
         } else {
             const checkPW = await user.authenticate(req.body.password); // check if passwords match
             console.log(`passwords match: ${checkPW}`); // Logs match
             if (checkPW) {
-                // const token = createJWT({userID: user._id}); // create accessToken
-                const token = createJWT({txt: 'JO ALTER'}); // create accessToken
+                const token = createJWT({userID: user._id}); // create accessToken
+                // const token = createJWT({txt: 'JO ALTER'}); // create accessToken
                 return res
                 .cookie("accessToken", token, {maxAge: 24 * 60 * 60 * 1000, httpOnly:true}) // send accessToken with Cookie
                 .cookie("username", user.userName, {maxAge: 24 * 60 * 60 * 1000, httpOnly:true})
@@ -33,7 +32,7 @@ export const userLogin = async (req, res, next) => {
                 .status(200)
                 .json('Authorisation Success!');      
             } 
-            return res.status(401).json("the data is wrong")
+            return res.status(209).json("the data is wrong")
         }
     } catch(err) {
         console.error(err);

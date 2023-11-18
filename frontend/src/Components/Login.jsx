@@ -54,7 +54,7 @@ const handleForm = async (data) => {
             // }
             console.log('here frontend')
             const xx = await response.data;
-            console.log(xx);
+            console.log({xx});
             toast.warning(xx);
         } catch(err) {
             return console.error(err);
