@@ -10,7 +10,7 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
-//useForm Hook
+// useForm Hook
 import {useForm} from 'react-hook-form';
 
 // Toastify
@@ -38,7 +38,7 @@ const Login = () => {
     resolver: yupResolver(logSchema),
   });
 
-  const [isAuth, setIsAuth] = useState(false);
+  // const [isAuth, setIsAuth] = useState(false);
 
   const navigate = useNavigate();
 
@@ -48,11 +48,11 @@ const handleForm = async (data) => {
     // Authorisation
     // fetching Login Route
     try{
-        // const response = await axios.post(`${serverUrl}${route}`, data);
         const response = await API.post(`${serverUrl}/login`, data);
         // if (!response.ok) {
             //     return console.log('response not OK...');
             // }
+            console.log('here frontend')
             const xx = await response.data;
             console.log(xx);
             toast.warning(xx);
@@ -68,7 +68,7 @@ const handleForm = async (data) => {
             console.log(data);
             if (authResponse.status == 200) {
                 //User Authenticated set isAuth to true & navigate or history to chat page...
-                // toast.success(data)
+                toast.success(data)
                 navigate("/chat");
             }
     } catch(err) {
@@ -85,7 +85,7 @@ const handleForm = async (data) => {
                 <TextField 
                 error={errors.email}
                 helperText={errors?.email?.message}
-                value='one@example.com'
+                // value='one@example.com'
                 id="outlined-basic" 
                 label="Email" 
                 variant="outlined" 
@@ -96,7 +96,7 @@ const handleForm = async (data) => {
                 <TextField 
                 error={errors.password}
                 helperText={errors?.password?.message}
-                value='qweqweqweqwe'
+                // value='qweqweqweqwe'
                 id="outlined-basic" 
                 label="Password" 
                 variant="outlined" 

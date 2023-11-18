@@ -13,10 +13,12 @@ export const userLogin = async (req, res, next) => {
     try{
         // lookUp
         const user = await User.findOne({email: req.body.email});
+        console.log({user})
         // if email is NOT in db
         if (!user) {
             console.log('unknown user');
             return res.status(404).json('unknown user');
+            //  throw new Error('unknown user');
         // if email IS in db
         } else {
             const checkPW = await user.authenticate(req.body.password); // check if passwords match
@@ -42,7 +44,7 @@ export const userLogin = async (req, res, next) => {
 export const userAuthentication = async (req, res) => {
     try{
         const {username, email, accessToken} = req.cookies;
-        const user = await User.findOne({})
+        const user = await User.findOne({email: email})
         if (!user) {
             return res.status(404).json('Authentication Denied');
         }
