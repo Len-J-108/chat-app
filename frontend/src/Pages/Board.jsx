@@ -11,22 +11,34 @@ import { toast } from 'react-toastify';
 
 // Components
 import UserList from '../Components/UserList.jsx';
+import Header from '../Components/board/Header.jsx';
 
-const Chat = () => {
+const Board = () => {
 
   const navigate = useNavigate();
 
+  const fetchForAuth = async () => {
+    const authResponse = await API.get(`${URL}/user/private`);
+    if (authResponse.status == 200) {
+      return;
+    } else {
+      navigate("/");
+    }
+  }
+  const fetchUserData = async () => {
+    try{
+      const response = await API.get(`${URL}/user/get-user-data`)
+      const userData = await response.data;
+    } catch(err) {
+        console.error(err);
+      }
+    
+  }
+
     // useEffect => check if JWT is in Cookies and verifies => setIsAuth(true)
     useEffect(() => {
-      const fetchIt = async () => {
-          const authResponse = await API.get(`${URL}/user/private`);
-          if (authResponse.status == 200) {
-            return;
-          } else {
-            navigate("/");
-          }
-       }
-       fetchIt()
+       fetchForAuth();
+       fetchUserData();
     }, [])
   
 
@@ -38,10 +50,12 @@ const Chat = () => {
 
   return (
     <>
-    <div>This is Chat</div>
+    <Header />
+
+    <div>This is Board</div>
     <UserList />
     </>
   )
 }
 
-export default Chat
+export default Board

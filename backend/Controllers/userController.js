@@ -118,3 +118,13 @@ export const userAuthentication = async (req, res) => {
       }
 }
 
+export const getUserData = async (req, res) => {
+    try{
+        const {username, email, accessToken} = req.cookies;
+        const user = await User.findOne({email: email})
+        res.status(200).json(user)
+    } catch(err) {
+        res.status(500).json('error inside userController -> getUserData')
+      }
+}
+

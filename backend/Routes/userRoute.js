@@ -9,5 +9,6 @@ userRouter
 .post("/login", UC.emailSchema, UC.validateEmail, UC.userLogin)
 .post("register", UC.emailSchema, UC.validateEmail, UC.checkNewEmail, UC.registerUser )
 .get("/private", UC.userAuthentication)
+.get("/get-user-data", UC.getUserData)
 
 export default userRouter;
