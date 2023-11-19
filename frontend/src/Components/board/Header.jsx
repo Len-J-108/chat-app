@@ -1,11 +1,12 @@
 import {useState} from "react"
 
-const Header = (props) => {
+const Header = ({data}) => {
 
   return (
     <>
     <div>Header</div>
-    <p>{props.userData.userName}</p>
+    <h3>welcome {data.userName}</h3>
+    
     </>
   )
 }

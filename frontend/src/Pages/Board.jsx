@@ -14,7 +14,7 @@ import UserList from '../Components/UserList.jsx';
 import Header from '../Components/board/Header.jsx';
 
 const Board = () => {
-const [currentUser, setCurrentUser] = useState(null);  
+const [currentUserData, setCurrentUserData] = useState(null);
 
   const navigate = useNavigate();
 
@@ -29,26 +29,32 @@ const [currentUser, setCurrentUser] = useState(null);
   const fetchUserData = async () => {
     try{
       const response = await API.get(`${URL}/user/get-user-data`)
-      const userData = await response.data;
-      return setCurrentUser(userData);
+      const userData = await response.json();
+      setCurrentUserData(userData);
     } catch(err) {
         console.error(err);
       }
-    
   }
 
     // useEffect => check if JWT is in Cookies and verifies => setIsAuth(true)
     useEffect(() => {
        fetchForAuth();
-       fetchUserData();
+
+       API.get(`${URL}/user/get-user-data`)
+         .then(res => {
+           return res;
+         })
+         .then(({data}) => {
+          setCurrentUserData(data)
+         })
     }, [])
 
   return (
     <>
-    <Header userData={currentUser} />
+    {currentUserData && <Header data={currentUserData} />}
 
     <div>This is Board</div>
-    <UserList />
+    {/* <UserList /> */}
     </>
   )
 }
