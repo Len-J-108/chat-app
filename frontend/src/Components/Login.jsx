@@ -67,7 +67,7 @@ const handleForm = async (data) => {
             if (authResponse.status == 200) {
                 //User Authenticated set isAuth to true & navigate or history to chat page...
                 toast.success(data)
-                navigate("/chat");
+                navigate("/board");
             }
     } catch(err) {
         console.error(err);

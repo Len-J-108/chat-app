@@ -5,7 +5,7 @@ import {Routes,  Route } from 'react-router-dom';
 
 // Import Components
 import Enter from './Pages/Enter';
-import Chat from './Pages/Chat';
+import Board from './Pages/Board';
 
 // import ToastContainer for error messages
 import { ToastContainer } from 'react-toastify';
@@ -32,7 +32,7 @@ function App() {
     /> 
       <Routes>
         <Route path="/" element={<Enter />} />
-        <Route path="/chat" element={<Chat />} />
+        <Route path="/board" element={<Board />} />
       </Routes>
     </>
   )

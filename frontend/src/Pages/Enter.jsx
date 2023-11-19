@@ -19,9 +19,9 @@ const Enter = () => {
     const fetchIt = async () => {
         const authResponse = await API.get(`${URL}/user/private`);
         if (authResponse.status == 200) {
-          console.log('to chat')
+          console.log('to Board.jsx')
             //User Authenticated set isAuth to true & navigate or history to chat page...
-            navigate("/chat");
+            navigate("/board");
         }
      }
      fetchIt()
