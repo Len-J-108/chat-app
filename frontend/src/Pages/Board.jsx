@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect,useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 
 // Axios speciale
@@ -14,6 +14,7 @@ import UserList from '../Components/UserList.jsx';
 import Header from '../Components/board/Header.jsx';
 
 const Board = () => {
+const [currentUser, setCurrentUser] = useState(null);  
 
   const navigate = useNavigate();
 
@@ -29,6 +30,7 @@ const Board = () => {
     try{
       const response = await API.get(`${URL}/user/get-user-data`)
       const userData = await response.data;
+      return setCurrentUser(userData);
     } catch(err) {
         console.error(err);
       }
@@ -40,17 +42,10 @@ const Board = () => {
        fetchForAuth();
        fetchUserData();
     }, [])
-  
-
-
- 
-
-
-
 
   return (
     <>
-    <Header />
+    <Header userData={currentUser} />
 
     <div>This is Board</div>
     <UserList />
