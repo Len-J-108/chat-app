@@ -49,24 +49,21 @@ const handleForm = async (data) => {
     // Authorisation
     // fetching Login Route
     try{
-        const response = await API.post(`${URL}/login`, data);
+        const response = await API.post(`${URL}/user/login`, data);
         // if (!response.ok) {
             //     return console.log('response not OK...');
             // }
-            console.log('here frontend')
             const xx = await response.data;
             console.log({xx});
             toast.warning(xx);
-        } catch(err) {
+          } catch(err) {
             return console.error(err);
-        }
-    // Authentication
-    // Fetching login/private route
-        try{
-            const authResponse = await API.get(`${serverUrl}/login/private`);
-            console.log('STATUS IS: ', authResponse.status)
+          }
+          // Authentication
+          // Fetching login/private route
+          try{
+            const authResponse = await API.get(`${URL}/user/private`);
             const data = await authResponse.data;
-            console.log(data);
             if (authResponse.status == 200) {
                 //User Authenticated set isAuth to true & navigate or history to chat page...
                 toast.success(data)

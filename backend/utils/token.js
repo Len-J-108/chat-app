@@ -10,7 +10,7 @@ export const verifyJWT = (token) => {
     const res = jwt.verify(token, process.env.TOKEN_SECRET, (err, tokenData)=>{
         if (err) return false;
         else {
-            console.log({tokenData});
+            // console.log({tokenData});
             return true
         }
     })

@@ -9,6 +9,9 @@ import URL from '../localhost.js';
 // Toastify
 import { toast } from 'react-toastify';
 
+// Components
+import UserList from '../Components/UserList.jsx';
+
 const Chat = () => {
 
   const navigate = useNavigate();
@@ -16,7 +19,7 @@ const Chat = () => {
     // useEffect => check if JWT is in Cookies and verifies => setIsAuth(true)
     useEffect(() => {
       const fetchIt = async () => {
-          const authResponse = await API.get(`${URL}/login/private`);
+          const authResponse = await API.get(`${URL}/user/private`);
           if (authResponse.status == 200) {
             return;
           } else {
@@ -34,7 +37,10 @@ const Chat = () => {
 
 
   return (
+    <>
     <div>This is Chat</div>
+    <UserList />
+    </>
   )
 }
 

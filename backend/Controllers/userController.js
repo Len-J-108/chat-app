@@ -47,7 +47,6 @@ export const checkNewEmail = async (req, res, next) => {
 
 //If Email is valid --> register user
 export const registerUser = async (req, res) => {
-    console.log('Inside registerUser')
     try{  
         const {email} = req.body;
         const user = new User(req.body);
@@ -88,7 +87,6 @@ export const userLogin = async (req, res, next) => {
             console.log(`passwords match: ${checkPW}`); // Logs match
             if (checkPW) {
                 const token = createJWT({userID: user._id}); // create accessToken
-                // const token = createJWT({txt: 'JO ALTER'}); // create accessToken
                 return res
                 .cookie("accessToken", token, {maxAge: 24 * 60 * 60 * 1000, httpOnly:true}) // send accessToken with Cookie
                 .cookie("username", user.userName, {maxAge: 24 * 60 * 60 * 1000, httpOnly:true})
@@ -120,14 +118,3 @@ export const userAuthentication = async (req, res) => {
       }
 }
 
-export const getAllUsers = async (req, res) => {
-    try{
-        const users = User.find();
-        console.log({users});
-        if (users) res.status(200).json(users)
-    } catch(err) {
-        console.error(err);
-      }
-
-
-}

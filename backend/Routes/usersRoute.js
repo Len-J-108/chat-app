@@ -5,6 +5,6 @@ import * as UCX from '../Controllers/usersController.js';
 const usersRouter = Router();
 
 usersRouter
-.get("get-all", UCX.getAllUsers)
+.get("/get-all", UCX.getAllUsers)
 
 export default usersRouter;
