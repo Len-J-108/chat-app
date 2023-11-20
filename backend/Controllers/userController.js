@@ -35,11 +35,11 @@ export const checkNewEmail = async (req, res, next) => {
         const user = await User.findOne({email: email});
         if (!user) {
             console.log(`User: ${email} is new`);
-            console.log('next');
             return next();
         }
         console.log(`User: ${email} already exists`);
-        res.status(409).json(`User: ${email} already exists`);
+        // res.status(204).json(`User: ${email} already exists`);
+        res.status(209).json(`User: already exists`);
     } catch(err) {
         console.error(err);
       }
@@ -87,12 +87,14 @@ export const userLogin = async (req, res, next) => {
             console.log(`passwords match: ${checkPW}`); // Logs match
             if (checkPW) {
                 const token = createJWT({userID: user._id}); // create accessToken
+                const cookieLifeDuration = 24 * 60 * 60 * 1000; // 24 hours
+                // const cookieLifeDuration = 5 * 1000; // 5seconds
                 return res
-                .cookie("accessToken", token, {maxAge: 24 * 60 * 60 * 1000, httpOnly:true}) // send accessToken with Cookie
-                .cookie("username", user.userName, {maxAge: 24 * 60 * 60 * 1000, httpOnly:true})
-                .cookie("email", user.email, {maxAge: 24 * 60 * 60 * 1000, httpOnly:true})
+                .cookie("accessToken", token, {maxAge: cookieLifeDuration, httpOnly:true}) // send accessToken with Cookie
+                .cookie("username", user.userName, {maxAge: cookieLifeDuration, httpOnly:true})
+                .cookie("email", user.email, {maxAge: cookieLifeDuration, httpOnly:true})
                 .status(200)
-                .json('Authorisation Success!');      
+                .json('user authorised');      
             } 
             return res.status(209).json("the data is wrong")
         }
@@ -107,11 +109,10 @@ export const userAuthentication = async (req, res) => {
         const {username, email, accessToken} = req.cookies;
         const user = await User.findOne({email: email})
         if (!user) {
-            console.log('here')
             return res.status(204).json('Authentication Denied');
         }
         const isUserAccessGranted = verifyJWT(accessToken);
-        res.status(200).json('Authentication Success');
+        res.status(200).json('Loin successful');
     } catch(err) {
         console.error(err);
         req.status(500).json(err.message);
@@ -129,3 +130,11 @@ export const getUserData = async (req, res) => {
       }
 }
 
+export const logout = async (req, res) => {
+    res
+     .clearCookie("accessToken")
+     .clearCookie("username")
+     .clearCookie("email")
+     .status(200)
+     .send('Logged out!')
+}

@@ -5,13 +5,11 @@ import { useState } from 'react';
 import * as styles from '../Styles/Register.module.css';
 
 // MUI
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 
 // Axios
-import axios from 'axios';
 import  API from '../api.js';
 import URL from '../localhost.js';
 
@@ -29,9 +27,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 
 const Register = () => {
 
-// Themes
-    const darkTheme = createTheme({ palette: { mode: 'dark' } });
-    const lightTheme = createTheme({ palette: { mode: 'light' } });
+
 
     const regSchema = yup.object().shape({
         userName: yup.string().min(3, 'username must be at least 3 characters long').required('A username is required'),
@@ -48,7 +44,7 @@ const Register = () => {
     
         // fetching
         try{
-            const response = await API.post(`${URL}/register`, data, {
+            const response = await API.post(`${URL}/user/register`, data, {
             })
             const xx = await response.data;
             console.log(xx);
@@ -62,9 +58,7 @@ const Register = () => {
     
     return (
         <>
-        <h3>--Register--</h3>
-    <ThemeProvider theme={darkTheme}>
-    <Paper elevation={8} style={{padding: 48}}>
+        <h3>Register</h3>
             <form className={styles.formContainer} onSubmit={handleSubmit(handleForm)}>
                 <TextField 
                 error={errors.userName}
@@ -98,8 +92,6 @@ const Register = () => {
                 />
             <Button disabled={!isValid}  variant="contained" type='submit' >Register</Button>
             </form>
-    </Paper>
-    </ThemeProvider>
     </>
   )
 }

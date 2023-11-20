@@ -5,8 +5,10 @@ import { createServer } from 'node:http';
 // import { Server } from 'socket.io';
 import cookieParser from 'cookie-parser';
 
+// Router
 import userRouter from './Routes/userRoute.js';
 import usersRouter from './Routes/usersRoute.js';
+import chatRouter from './Routes/chatRoute.js';
 
 
 // MongoDB Connection
@@ -34,6 +36,8 @@ const server = createServer(app);
 app.use("/user", userRouter)
 // Poly
 app.use("/users", usersRouter)
+
+app.use("/chat", chatRouter)
 
 
 
