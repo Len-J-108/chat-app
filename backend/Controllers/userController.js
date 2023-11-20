@@ -47,18 +47,20 @@ export const checkNewEmail = async (req, res, next) => {
 
 //If Email is valid --> register user
 export const registerUser = async (req, res) => {
+    console.log('-------HERE---------')
     try{  
         const {email} = req.body;
         const user = new User(req.body);
         const response = await user.save();
         console.log('user saved')
         if (user) {
-            res.status(201).json({
-                _id: user.id,
-                userName: user.userName,
-                password: user.password,
-                token: createJWT({token: user._id}) 
-            });
+            res.status(200).send('Registered successful')
+            // res.status(201).send({
+            //     _id: user.id,
+            //     userName: user.userName,
+            //     password: user.password,
+            //     token: createJWT({token: user._id}) 
+            // });
         }
     } catch(err) {
         if (err.errors){
@@ -87,7 +89,8 @@ export const userLogin = async (req, res, next) => {
             console.log(`passwords match: ${checkPW}`); // Logs match
             if (checkPW) {
                 const token = createJWT({userID: user._id}); // create accessToken
-                const cookieLifeDuration = 24 * 60 * 60 * 1000; // 24 hours
+                // const cookieLifeDuration = 24 * 60 * 60 * 1000; // 24 hours
+                const cookieLifeDuration = 60 * 60 * 1000; // 24 hours
                 // const cookieLifeDuration = 5 * 1000; // 5seconds
                 return res
                 .cookie("accessToken", token, {maxAge: cookieLifeDuration, httpOnly:true}) // send accessToken with Cookie
