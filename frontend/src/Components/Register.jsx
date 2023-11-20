@@ -36,7 +36,7 @@ const Register = () => {
         
     })
     
-    const { register, handleSubmit, formState: { errors, isValid } } = useForm({
+    const { register, handleSubmit, reset, formState: { errors, isValid } } = useForm({
         resolver: yupResolver(regSchema),
       });
     
@@ -46,9 +46,15 @@ const Register = () => {
         try{
             const response = await API.post(`${URL}/user/register`, data, {
             })
-            const xx = await response.data;
-            console.log(xx);
-            toast.warning(xx)
+            const resData = await response.data;
+            console.log(resData);
+            if (resData === 'Registered successful') {
+                // return toast.success(resData);
+                toast.success(resData);
+                reset();
+                return;
+            }
+            toast.warning(resData)
         } catch(err) {
             console.error(err);
         }
