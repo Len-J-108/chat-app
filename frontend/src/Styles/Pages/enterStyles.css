@@ -1,0 +1,12 @@
+.enter-container {
+    /* border: 2px solid green; */
+    width: 45%;
+    margin: 150px auto;
+}
+
+.btn-container {
+    /* border: 2px solid green; */
+    width: 40%;
+    display: flex;
+    justify-content: space-evenly;
+}

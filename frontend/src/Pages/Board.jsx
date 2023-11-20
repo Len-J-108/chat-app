@@ -5,12 +5,13 @@ import {useNavigate} from 'react-router-dom';
 import API from '../api.js';
 import URL from '../localhost.js';
 
-
 // Toastify
 import { toast } from 'react-toastify';
 
+// Styles
+import '../Styles/Pages/boardStyles.css';
+
 // Components
-import UserList from '../Components/UserList.jsx';
 import Header from '../Components/board/Header.jsx';
 
 const Board = () => {
@@ -25,15 +26,6 @@ const [currentUserData, setCurrentUserData] = useState(null);
     } else {
       navigate("/");
     }
-  }
-  const fetchUserData = async () => {
-    try{
-      const response = await API.get(`${URL}/user/get-user-data`)
-      const userData = await response.json();
-      setCurrentUserData(userData);
-    } catch(err) {
-        console.error(err);
-      }
   }
 
     // useEffect => check if JWT is in Cookies and verifies => setIsAuth(true)
@@ -51,10 +43,9 @@ const [currentUserData, setCurrentUserData] = useState(null);
 
   return (
     <>
+    <div className='board-container'>
     {currentUserData && <Header data={currentUserData} />}
-
-    <div>This is Board</div>
-    {/* <UserList /> */}
+    </div>
     </>
   )
 }

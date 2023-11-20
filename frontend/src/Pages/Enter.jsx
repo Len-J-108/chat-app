@@ -1,22 +1,25 @@
+// React
 import { useEffect, useState } from 'react';
 import {useNavigate} from 'react-router-dom';
 
+// Components
 import Login from '../Components/Login'
 import Register from '../Components/Register';
-
-import "react-toastify/dist/ReactToastify.css";
 
 // MUI
 import { createTheme, ThemeProvider, styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 
+// Styles
+import '../Styles/Pages/enterStyles.css';
+
 // Toastify
 import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
 
 // Axios speciale
 import API from '../api.js';
-
 import URL from '../localhost.js';
 
 
@@ -24,9 +27,6 @@ const Enter = () => {
 
   const darkTheme = createTheme({ palette: { mode: 'dark' } });
   const lightTheme = createTheme({ palette: { mode: 'light' } });
-
-      // on: '#16a34a',
-      // off: '#44403c'
 
       const buttonTheme = createTheme({
         palette: {
@@ -66,11 +66,13 @@ const Enter = () => {
   return (
     <>
     <ThemeProvider theme={darkTheme}>
-    <Paper elevation={8} style={{padding: 48}}>
+    <Paper elevation={8} style={{padding: 48}} className='enter-container'>
     <div>
       <ThemeProvider theme={buttonTheme}>
-      <Button variant="outlined" color={toggle ? "on" : "off"} onClick={lgnClickHandler}>Login</Button>
-      <Button variant="outlined" color={!toggle ? "on" : "off"} onClick={rgstrClickHandler}>Register</Button>
+      <div className='btn-container'>
+        <Button variant="outlined" color={toggle ? "on" : "off"} onClick={lgnClickHandler}>Login</Button>
+        <Button variant="outlined" color={!toggle ? "on" : "off"} onClick={rgstrClickHandler}>Register</Button>
+      </div>
       </ThemeProvider>
     </div>
       {toggle && <Login />}
