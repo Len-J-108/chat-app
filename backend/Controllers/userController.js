@@ -55,16 +55,9 @@ export const registerUser = async (req, res) => {
         console.log('user saved')
         if (user) {
             res.status(200).send('Registered successful')
-            // res.status(201).send({
-            //     _id: user.id,
-            //     userName: user.userName,
-            //     password: user.password,
-            //     token: createJWT({token: user._id}) 
-            // });
         }
     } catch(err) {
         if (err.errors){
-            // console.log('here', err.errors);
             const validationErrors = Object.values(err.errors).map((e) => e.message);
             console.error(`Validation Errors: ${validationErrors}`);
             res.status(400).json(validationErrors);
