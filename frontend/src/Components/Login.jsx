@@ -41,8 +41,11 @@ const handleForm = async (data) => {
     // fetching Login Route
     try{
         const response = await API.post(`${URL}/user/login`, data);
-            const ddata = await response.data;
-            toast.success('Login successful')
+            const resData = await response.data;
+            console.log(resData);
+            // toast.success('Login successful')
+            if (resData === 'unknown user') return toast.warning(resData);
+           toast.warning(resData);
             navigate("/board");
           } catch(err) {
             return console.error(err);
