@@ -19,26 +19,16 @@ const [currentUserData, setCurrentUserData] = useState(null);
 
   const navigate = useNavigate();
 
-  const fetchForAuth = async () => {
-    const authResponse = await API.get(`${URL}/user/private`);
-    if (authResponse.status == 200) {
-      return;
-    } else {
-      navigate("/");
-    }
-  }
-
     // useEffect => check if JWT is in Cookies and verifies => setIsAuth(true)
     useEffect(() => {
-       fetchForAuth();
-
-       API.get(`${URL}/user/get-user-data`)
-         .then(res => {
-           return res;
-         })
-         .then(({data}) => {
-          setCurrentUserData(data)
-         })
+      API.get(`${URL}/user/get-user-data`)
+        .then((response) =>  response.data)
+        .then(data => {
+          console.log(data);
+          setCurrentUserData(data);
+        })
+          
+        .catch(() => navigate("/"))
     }, [])
 
   return (

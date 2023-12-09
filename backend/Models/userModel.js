@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 
 
 const userModel = mongoose.Schema({
-    userName: {
+    username: {
         type: String, 
         trim: true, 
         minLength: [3, 'username needs to be at least 3 characters long...'],
@@ -20,6 +20,10 @@ const userModel = mongoose.Schema({
         type: String,
         minLength: [10, 'password not less than 10 characters...'],
         required: [true, 'a password is required...'],
+    },
+    isAdmin: {
+        type: Boolean,
+        default: false
     }
 }, {timestamps: true});
 

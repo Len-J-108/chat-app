@@ -53,14 +53,13 @@ const Enter = () => {
 
   // useEffect => check if JWT is in Cookies and verifies => setIsAuth(true)
   useEffect(() => {
-    const fetchIt = async () => {
-        const authResponse = await API.get(`${URL}/user/private`);
-        if (authResponse.status == 200) {
-            //User Authenticated set isAuth to true & navigate or history to chat page...
-            navigate("/board");
-        }
-     }
-     fetchIt()
+        API.get(`${URL}/user/private`)
+          .then((response) => {
+            if (response.status == 200) {
+              navigate("/board");
+            }
+          })
+            //User Authenticated set isAuth to true & navigate or history to chat page... 
   }, [])
 
   return (

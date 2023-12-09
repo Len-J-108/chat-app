@@ -21,7 +21,7 @@ const Header = ({data}) => {
   return (
     <>
     <div className='header-container'>
-    <h2>welcome, {data.userName}</h2>
+    <h2>welcome, {data.username}</h2>
     <Navigation />
 
 

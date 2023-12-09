@@ -30,7 +30,7 @@ const Register = () => {
 
 
     const regSchema = yup.object().shape({
-        userName: yup.string().min(3, 'username must be at least 3 characters long').required('A username is required'),
+        username: yup.string().min(3, 'username must be at least 3 characters long').required('A username is required'),
         email: yup.string().email('enter valid email-address').required('An email-address is required'),
         password: yup.string().min(8, 'password must be at least 8 characters long').required('please choose a password')
         
@@ -49,7 +49,6 @@ const Register = () => {
             const resData = await response.data;
             console.log(resData);
             if (resData === 'Registered successful') {
-                // return toast.success(resData);
                 toast.success(resData);
                 reset();
                 return;
@@ -67,14 +66,14 @@ const Register = () => {
         <h3>Register</h3>
             <form className={styles.formContainer} onSubmit={handleSubmit(handleForm)}>
                 <TextField 
-                error={errors.userName}
-                helperText={errors?.userName?.message}
+                error={errors.username}
+                helperText={errors?.username?.message}
                 id="outlined-basic"
                 label="User Name" 
                 variant="outlined" 
                 InputLabelProps={{ style: { color: 'orange' } }} 
                 inputProps={{ style: { color: "white" } }}
-                {...register("userName")}
+                {...register("username")}
                 />
                 <TextField 
                 error={errors.email}

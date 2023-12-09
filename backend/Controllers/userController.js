@@ -42,20 +42,17 @@ export const checkNewEmail = async (req, res, next) => {
         res.status(209).json(`User: already exists`);
     } catch(err) {
         console.error(err);
-      }
+    }
 }
 
 //If Email is valid --> register user
 export const registerUser = async (req, res) => {
-    console.log('-------HERE---------')
     try{  
-        const {email} = req.body;
         const user = new User(req.body);
         const response = await user.save();
         console.log('user saved')
-        if (user) {
-            res.status(200).send('Registered successful')
-        }
+        res.status(200).send('Registered successful')
+        
     } catch(err) {
         if (err.errors){
             const validationErrors = Object.values(err.errors).map((e) => e.message);
@@ -63,7 +60,7 @@ export const registerUser = async (req, res) => {
             res.status(400).json(validationErrors);
         }
         console.log('no validation errors');
-        res.end();
+        res.status(400).json('something went wrong in register');
       }
 }
 
@@ -81,14 +78,14 @@ export const userLogin = async (req, res, next) => {
             const checkPW = await user.authenticate(req.body.password); // check if passwords match
             console.log(`passwords match: ${checkPW}`); // Logs match
             if (checkPW) {
-                const token = createJWT({userID: user._id}); // create accessToken
+                const token = createJWT({ // create accessToken
+                    userID: user._id,
+                }); 
                 // const cookieLifeDuration = 24 * 60 * 60 * 1000; // 24 hours
                 const cookieLifeDuration = 60 * 60 * 1000; // 24 hours
                 // const cookieLifeDuration = 5 * 1000; // 5seconds
                 return res
                 .cookie("accessToken", token, {maxAge: cookieLifeDuration, httpOnly:true}) // send accessToken with Cookie
-                .cookie("username", user.userName, {maxAge: cookieLifeDuration, httpOnly:true})
-                .cookie("email", user.email, {maxAge: cookieLifeDuration, httpOnly:true})
                 .status(200)
                 .json('user authorised');      
             } 
@@ -100,27 +97,29 @@ export const userLogin = async (req, res, next) => {
       }
 }
 
-export const userAuthentication = async (req, res) => {
+export const userAuthentication = async (req, res, next) => {
     try{
-        const {username, email, accessToken} = req.cookies;
-        const user = await User.findOne({email: email})
-        if (!user) {
-            return res.status(204).json('Authentication Denied');
-        }
-        const isUserAccessGranted = verifyJWT(accessToken);
-        res.status(200).json('Loin successful');
+        const {accessToken} = req.cookies;
+        const decoded = verifyJWT(accessToken);
+        if (!decoded) { throw new Error('not granted');}
+        req.id = decoded.id // send id as req parameter to next middleware
+        next();
     } catch(err) {
-        console.error(err);
-        req.status(500).json(err.message);
+        res.status(500).json(err.message);
       }
 }
 
 export const getUserData = async (req, res) => {
     try{
-        const {username, email, accessToken} = req.cookies;
-        const user = await User.findOne({email: email})
-        // res.status(200).json(user)
-        res.status(200).send(user)
+        const {id} = req;
+        const user = await User.findOne({id})
+        if (!user) throw new Error('something went wrong');
+        const resData = {
+            username: user.username,
+            email: user.email,
+            isAdmin: user.isAdmin
+        }
+        res.status(200).json(resData)
     } catch(err) {
         res.status(500).json('error inside userController -> getUserData')
       }
