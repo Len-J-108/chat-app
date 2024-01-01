@@ -7,9 +7,7 @@ import cookieParser from 'cookie-parser';
 
 // Router
 import userRouter from './Routes/userRoute.js';
-import usersRouter from './Routes/usersRoute.js';
 import chatRouter from './Routes/chatRoute.js';
-
 
 // MongoDB Connection
 import './utils/mongodb.js';
@@ -31,13 +29,8 @@ app.use(cookieParser());
 
 const server = createServer(app);
 //------------------------------------------------------------------------------------
-
-// Mono
 app.use("/user", userRouter)
-
 app.use("/chat", chatRouter)
-
-
 
 //------------------------------------------------------------------------------------
 // Server listen

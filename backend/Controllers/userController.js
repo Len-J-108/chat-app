@@ -4,8 +4,6 @@
 // Import Model
 import { User } from '../Models/userModel.js'; // UserModel
 
-import jwt from 'jsonwebtoken';
-
 // Import Validator (for email)
 import validator from 'express-validator';
 import {validationResult} from 'express-validator';
@@ -97,16 +95,15 @@ export const userLogin = async (req, res, next) => {
       }
 }
 
-export const userAuthentication = async (req, res, next) => {
-    try{
-        const {accessToken} = req.cookies;
-        const decoded = verifyJWT(accessToken);
-        if (!decoded) { throw new Error('not granted');}
-        req.id = decoded.id // send id as req parameter to next middleware
-        next();
-    } catch(err) {
-        res.status(500).json(err.message);
-      }
+export const searchUsers = async (req, res) => {
+    const x = req.query.search ? {
+        $or: [
+            {name: {$regex: req.query.search, $options: "i"}},
+            {email: {$regex: req.query.search, $options: "i"}},
+        ],
+    } : {};
+    const users = User.find(keyword).find({_id: {$ne: req.id}});
+    res.status(200).send(users);
 }
 
 export const getUserData = async (req, res) => {
