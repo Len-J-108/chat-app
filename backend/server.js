@@ -34,8 +34,6 @@ const server = createServer(app);
 
 // Mono
 app.use("/user", userRouter)
-// Poly
-app.use("/users", usersRouter)
 
 app.use("/chat", chatRouter)
 
